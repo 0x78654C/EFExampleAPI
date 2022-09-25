@@ -1,0 +1,7 @@
+Project database
+
+1. user_table 
+user_id, user_name(txt),password(txt), login_date(date)
+
+2. data_table
+id,user_id, item_name(txt),amount(int)
