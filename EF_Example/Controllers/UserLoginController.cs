@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using EF_Example.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EF_Example.Controllers
 {
+    [Authorize]
     [Route("api/login")]
     [ApiController]
     public class UserLoginControlle : ControllerBase

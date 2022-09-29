@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EF_Example.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
