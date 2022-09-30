@@ -1,13 +1,17 @@
+using Microsoft.VisualBasic.ApplicationServices;
 using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http.Headers;
+using static System.Net.WebRequestMethods;
 
 namespace FrontEndForm
 {
     public partial class Form1 : Form
     {
-        static HttpClient client = new HttpClient();
+        static HttpClient client;
         private static string s_outMs = "";
-        private static string s_jwtKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiJkZDgyYjk3Zi0zYjY5LTQ1NzItYjc5Ny01OWJhMDIyYThlOWIiLCJpYXQiOiIyOS8wOS8yMDIyIDE4OjI3OjE0IiwidXNlcl9pZCI6IjIiLCJVc2VyX25hbWUiOiJ1c2VyMiIsIkxvZ2luX2RhdGUpIjoiMjUvMDkvMjAyMiAwMDowMDowMCIsImV4cCI6MTY2NDQ3NjYzNCwiaXNzIjoiSldUQXV0aGVudGljYXRpb25TZXJ2ZXIiLCJhdWQiOiJKV1RTZXJ2aWNlUG9zdG1hbkNsaWVudCJ9.M5WP7axDmfht73QLR8M0t-52DL1aDq1oJDZYQ3ft5rM";
+        private static string s_jwtKey = "";
+
         public Form1()
         {
             InitializeComponent();
@@ -18,31 +22,62 @@ namespace FrontEndForm
 
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            _ = Task.Run(() => GetUserData());
-            textBox1.Text = s_outMs;
+            GetUserData(textBox2.Text, GetToken(textBox2.Text,usernameTxt.Text,passwordTxt.Text));
         }
 
-        private static async void GetUserData()
+        private string GetToken(string apiUrl,string username,string password)
         {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Check username or password!");
+                return "";
+            }
+
+            string endpoint = "https://localhost:7211/api/token";
+            string method = "POST";
+            string json = JsonConvert.SerializeObject(new
+            {
+                user_name = username,
+                password = password
+            });
+
+            WebClient wc = new WebClient();
+            wc.Headers["Content-Type"] = "application/json";
             try
             {
-                string x = "";
-                client.BaseAddress = new Uri("http://localhost:5211/api/login/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization =
-    new AuthenticationHeaderValue("Bearer", s_jwtKey);
-                var response = await client.GetStringAsync("2");
-                s_outMs = response;
+                var response = wc.UploadString(endpoint, method, json);
+                textBox1.Text = response;
+                return response;
             }
             catch (Exception e)
             {
-
-                MessageBox.Show(e.ToString());
+                return "";
             }
         }
-    }   
+
+        private void GetUserData(string apiUrl, string token)
+        {
+            string endpoint = apiUrl;
+
+            WebClient wc = new WebClient();
+            wc.Headers["Content-Type"] = "application/json";
+            wc.Headers["Authorization"] = $"Bearer {token}";
+            try
+            {
+                string response = wc.DownloadString(endpoint);
+                textBox1.Text = response;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
