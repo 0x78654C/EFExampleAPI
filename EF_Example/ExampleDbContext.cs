@@ -30,6 +30,7 @@ namespace EF_Example
   
         public virtual DbSet<UserLogin> UserLogin { get; set; } = null!;
         public virtual DbSet<UserData> UserData { get; set; } = null!;
+        public virtual DbSet<Books> Books { get; set; } = null!;
 
         /// <summary>
         /// Structure the db tables.
@@ -55,8 +56,21 @@ namespace EF_Example
                   .IsUnique();
 
                 entity.Property(e => e.User_id);
-                entity.Property(e => e.Item_name).HasMaxLength(150);
+                entity.Property(e => e.Book_Name).HasMaxLength(150);
                 entity.Property(e => e.Amount);
+            });
+
+            modelBuilder.Entity<Books>(entity =>
+            {
+                entity.ToTable("Books");
+                entity.HasIndex(u => u.id)
+                  .IsUnique();
+
+                entity.Property(e => e.Book_Name).HasMaxLength(250);
+                entity.Property(e => e.Author);
+                entity.Property(e => e.Catergory);
+                entity.Property(e => e.Amount);
+                entity.Property(e => e.Price);
             });
             OnModelCreatingPartial(modelBuilder);
         }
