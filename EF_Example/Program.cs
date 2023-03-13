@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ExampleDbContext>(options=> options.UseSqlServer("Data Source=localhost\\sqlexpress;Initial Catalog=ExampleDb;user id=sa;password=Password#1234"));
+builder.Services.AddDbContext<ExampleDbContext>(options=> options.UseSqlServer("Data Source=localhost;Initial Catalog=BookShop;user id=sa;password=test1234"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
