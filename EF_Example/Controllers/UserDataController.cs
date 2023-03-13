@@ -63,7 +63,7 @@ namespace EF_Example.Controllers
         /// Update user data by user_id.
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="userLogin"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<ActionResult<UserData>> Update(long id, UserData userData)
