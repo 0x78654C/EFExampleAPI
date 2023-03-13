@@ -47,7 +47,6 @@ namespace EF_Example.Controllers
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                         new Claim("User_name", user.User_name), 
                         new Claim("password",user.Password),
-                        new Claim("Login_date)", user.Login_date.ToString())
                     };
 
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
