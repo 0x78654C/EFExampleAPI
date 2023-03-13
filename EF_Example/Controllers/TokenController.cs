@@ -45,8 +45,8 @@ namespace EF_Example.Controllers
                         new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                        new Claim("user_id", user.id.ToString()),
-                        new Claim("User_name", user.User_name),
+                        new Claim("User_name", user.User_name), 
+                        new Claim("password",user.Password),
                         new Claim("Login_date)", user.Login_date.ToString())
                     };
 
