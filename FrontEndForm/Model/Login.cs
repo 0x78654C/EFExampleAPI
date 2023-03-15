@@ -1,6 +1,7 @@
 using FrontEndForm.Controllers;
 using FrontEndForm.Model;
 using FrontEndForm.Utils;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace FrontEndForm
 {
@@ -13,7 +14,19 @@ namespace FrontEndForm
 
         private void LoginBtn_Click(object sender, EventArgs e)
         {
-            LoginBookStore($"{Global.apiUrl}/api/token", usernameTxt.Text, passwordTxt.Text);
+            // still on work
+            string user = usernameTxt.Text;
+            string password = passwordTxt.Text;
+            string api = $"{Global.apiUrl}/api/token";
+
+            LoginController loginController = new LoginController(api, user, password);
+            var result = Task.Run(() => loginController.GetToken()).Result;
+            if (!result.Contains("Invalid credentials") || !result.Contains("Error"))
+            {
+                Global.jwtKey = result.StringToSecureString();
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+            }
         }
 
         /// <summary>
@@ -26,7 +39,7 @@ namespace FrontEndForm
         {
             LoginController loginController = new LoginController($"{apiUrl}/api/token", userName, password);
             var result = Task.Run(() => loginController.GetToken()).Result;
-
+            MessageBox.Show(result);
             if (result.Contains("Invalid credentials") || result.Contains("Error"))
                 MessageBox.Show(result);
             else
@@ -34,7 +47,6 @@ namespace FrontEndForm
                 Global.jwtKey = result.StringToSecureString();
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
-                this.Hide();
             }
         }
     }
