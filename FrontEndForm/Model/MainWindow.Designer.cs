@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            BooksLbl = new Label();
             bookName = new DataGridViewTextBoxColumn();
             author = new DataGridViewTextBoxColumn();
             catergory = new DataGridViewTextBoxColumn();
             price = new DataGridViewTextBoxColumn();
+            BooksLbl = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -46,16 +46,6 @@
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(684, 150);
             dataGridView1.TabIndex = 0;
-            // 
-            // BooksLbl
-            // 
-            BooksLbl.AutoSize = true;
-            BooksLbl.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            BooksLbl.Location = new Point(12, 26);
-            BooksLbl.Name = "BooksLbl";
-            BooksLbl.Size = new Size(91, 15);
-            BooksLbl.TabIndex = 1;
-            BooksLbl.Text = "Books in Store:";
             // 
             // bookName
             // 
@@ -80,6 +70,16 @@
             price.HeaderText = "Price";
             price.Name = "price";
             // 
+            // BooksLbl
+            // 
+            BooksLbl.AutoSize = true;
+            BooksLbl.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            BooksLbl.Location = new Point(12, 26);
+            BooksLbl.Name = "BooksLbl";
+            BooksLbl.Size = new Size(91, 15);
+            BooksLbl.TabIndex = 1;
+            BooksLbl.Text = "Books in Store:";
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -89,6 +89,7 @@
             Controls.Add(dataGridView1);
             Name = "MainWindow";
             Text = "MainWindow";
+            Load += MainWindow_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
