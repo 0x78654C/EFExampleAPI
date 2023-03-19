@@ -27,10 +27,13 @@ namespace EF_Example
             : base(options)
         {
         }
-  
+
         public virtual DbSet<UserLogin> UserLogin { get; set; } = null!;
         public virtual DbSet<UserData> UserData { get; set; } = null!;
         public virtual DbSet<Books> Books { get; set; } = null!;
+        public virtual DbSet<UseRole> UseRoles { get; set; } = null!;
+        public virtual DbSet<Role> Roles { get; set; } = null!;
+
 
         /// <summary>
         /// Structure the db tables.
@@ -38,15 +41,46 @@ namespace EF_Example
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.HasIndex(e => e.Id).IsUnique();
+                entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(45);
+            });
+
+            modelBuilder.Entity<UseRole>(entity =>
+            {
+                entity.HasIndex(e => e.Id).IsUnique();
+
+                entity.ToTable("User_Role");
+                entity.HasIndex(e => e.RoleId, "RoleUserRoles_idx");
+                entity.HasIndex(e => e.UserId, "RoleUserRolesFK_idx");
+                entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime");
+
+                entity.HasOne(e => e.Role).WithMany(p => p.UserRoles)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("RoleUserRoles");
+
+                entity.HasOne(d => d.User).WithMany(p => p.UseRoles)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("UserUserRolesFK");
+
+            });
+
             modelBuilder.Entity<UserLogin>(entity =>
             {
                 entity.ToTable("UserLogin");
                 entity.HasIndex(u => u.id)
                   .IsUnique();
-
                 entity.Property(e => e.User_name).HasMaxLength(150);
                 entity.Property(e => e.Password).HasMaxLength(150);
                 entity.Property(e => e.Login_date).HasColumnType("date");
+                entity.HasData(Enum.GetValues<Roles>().Select(r => new Role { Id = ((long)r), Name = r.ToString() }));
             });
 
             modelBuilder.Entity<UserData>(entity =>
@@ -54,7 +88,6 @@ namespace EF_Example
                 entity.ToTable("UserData");
                 entity.HasIndex(u => u.id)
                   .IsUnique();
-
                 entity.Property(e => e.User_id);
                 entity.Property(e => e.Book_Name).HasMaxLength(150);
                 entity.Property(e => e.Amount);
