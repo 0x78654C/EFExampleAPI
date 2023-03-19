@@ -22,7 +22,7 @@ namespace EF_Example.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet(Name = "ListRoles")]
-        public async Task<IEnumerable<Role>> ListBooks() => await _context.Roles.ToListAsync();
+        public async Task<IEnumerable<UseRole>> ListBooks() => await _context.UseRoles.ToListAsync();
 
     }
 }
