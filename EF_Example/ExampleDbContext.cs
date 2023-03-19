@@ -75,10 +75,10 @@ namespace EF_Example
                 entity.ToTable("Books");
                 entity.HasIndex(u => u.id)
                   .IsUnique();
-
+                entity.Property(e => e.ISBN).HasMaxLength(13);
                 entity.Property(e => e.Book_Name).HasMaxLength(250);
                 entity.Property(e => e.Author);
-                entity.Property(e => e.Catergory);
+                entity.Property(e => e.Category);
                 entity.Property(e => e.Amount);
                 entity.Property(e => e.Price);
             });
