@@ -19,7 +19,7 @@ namespace EF_Example
 
         private static DbContextOptions GetOptions(string connectionString)
         {
-            return SqlServerDbContextOptionsExtensions.UseSqlServer(new DbContextOptionsBuilder(), connectionString)
+            return new DbContextOptionsBuilder().UseSqlServer(connectionString)
                 .Options;
         }
 
