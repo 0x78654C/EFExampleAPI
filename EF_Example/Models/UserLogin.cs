@@ -5,8 +5,8 @@
         public long id { get; set; }
         public string? User_name { get; set; }
         public string? Password { get; set; }
+        public int? User_Role { get; set; }
         public DateTime Login_date { get; set; } = DateTime.UtcNow;
-        public virtual ICollection<UseRole> UseRoles { get; set; } = new List<UseRole>();
 
     }
 }
