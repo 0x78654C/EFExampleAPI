@@ -2,12 +2,7 @@
 {
     public class UseRole
     {
-        public long Id { get; set; }
-        public long RoleId { get; set; }
-        public long UserId { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public virtual Role? Role { get; set; }
-
-        public virtual UserLogin? User { get; set; }
+        public int? Id { get; set; }
+        public string? Role_Name { get; set; }
     }
 }
