@@ -34,8 +34,7 @@ namespace EF_Example.Controllers.BooksControllers
         public async Task<ActionResult<Books>> AddBooks(Books bookData)
         {
             var bookNameDb = await _context.Books.Where(x => x.Book_Name == bookData.Book_Name).FirstOrDefaultAsync();
-            var isbnDb = await _context.Books.Where(x => x.ISBN == bookData.ISBN).FirstOrDefaultAsync();
-
+            var isbnDb = await GetBookByISBN(bookData.ISBN);
             if (isbnDb != null)
                 return BadRequest($"ISBN {bookData.ISBN} alreadty exist!");
 
@@ -57,8 +56,7 @@ namespace EF_Example.Controllers.BooksControllers
         [HttpPut]
         public async Task<ActionResult<Books>> UpdateByISBN(Books bookData)
         {
-            var isbnDb = await _context.Books.Where(x => x.ISBN == bookData.ISBN).FirstOrDefaultAsync();
-
+            var isbnDb = await GetBookByISBN(bookData.ISBN);
             if (isbnDb == null)
                 return BadRequest($"ISBN {bookData.ISBN} does not exist!");
 
@@ -75,7 +73,7 @@ namespace EF_Example.Controllers.BooksControllers
         [HttpDelete]
         public async Task<IActionResult> DeleteByISBN(Books bookData)
         {
-            var isbnDb = _context.Books.Where(x => x.ISBN == bookData.ISBN).FirstOrDefault();
+            var isbnDb = await GetBookByISBN(bookData.ISBN);
 
             if (isbnDb == null)
                 return BadRequest($"ISBN {bookData.ISBN} does not exist!");
@@ -84,5 +82,7 @@ namespace EF_Example.Controllers.BooksControllers
             await _context.SaveChangesAsync();
             return Ok($"Book with ISBN {isbnDb} was deleted!");
         }
+
+        private async Task<Books?> GetBookByISBN(string isbn) => await _context.Books.Where(x => x.ISBN == isbn).FirstOrDefaultAsync();
     }
 }
