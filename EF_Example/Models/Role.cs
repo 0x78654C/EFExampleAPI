@@ -2,8 +2,8 @@
 {
     public class Role
     {
-        public long Id { get; set; }
-        public string? Name { get; set; }
+        public int? Id { get; set; }
+        public string? Role_Name { get; set; }
         public virtual ICollection<UseRole> UserRoles { get; set; } = new List<UseRole>();
     }
 }
