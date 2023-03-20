@@ -43,7 +43,7 @@ namespace EF_Example
 
             modelBuilder.Entity<UseRole>(entity =>
             {
-                entity.HasIndex(e => e.Id).IsUnique();
+                entity.Property(e => e.Id).HasMaxLength(1);
                 entity.ToTable("User_Role");
                 entity.HasData(Enum.GetValues<Roles>().Select(w => new Role { Id = (int)w, Role_Name = w.ToString() }));
 
@@ -56,7 +56,7 @@ namespace EF_Example
                   .IsUnique();
                 entity.Property(e => e.User_name).HasMaxLength(150);
                 entity.Property(e => e.Password).HasMaxLength(150);
-                entity.Property(e => e.User_Role).HasMaxLength(3).HasDefaultValue(3);
+               // entity.Property(e => e.User_Role).HasMaxLength(3).HasDefaultValue(3);
                 entity.Property(e => e.Login_date).HasColumnType("date");
             });
 
