@@ -99,17 +99,16 @@ namespace EF_Example.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int?>("User_Role")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(3)
-                        .HasColumnType("int")
-                        .HasDefaultValue(3);
+                    b.Property<int>("UserRole")
+                        .HasColumnType("int");
 
                     b.Property<string>("User_name")
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("UserRole");
 
                     b.HasIndex("id")
                         .IsUnique();
@@ -121,6 +120,7 @@ namespace EF_Example.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasMaxLength(1)
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
@@ -129,9 +129,6 @@ namespace EF_Example.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("User_Role", (string)null);
 
@@ -166,6 +163,17 @@ namespace EF_Example.Migrations
                             Id = 5,
                             Role_Name = "Director"
                         });
+                });
+
+            modelBuilder.Entity("EF_Example.Models.UserLogin", b =>
+                {
+                    b.HasOne("EF_Example.Models.UseRole", "User_Role")
+                        .WithMany()
+                        .HasForeignKey("UserRole")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User_Role");
                 });
 #pragma warning restore 612, 618
         }

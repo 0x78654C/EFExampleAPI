@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF_Example.Migrations
 {
     [DbContext(typeof(ExampleDbContext))]
-    [Migration("20230319193859_AddISBNString")]
-    partial class AddISBNString
+    [Migration("20230320171940_ForeignKey")]
+    partial class ForeignKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,7 @@ namespace EF_Example.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<string>("Catergory")
+                    b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
@@ -123,6 +123,7 @@ namespace EF_Example.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasMaxLength(1)
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
@@ -131,9 +132,6 @@ namespace EF_Example.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("User_Role", (string)null);
 

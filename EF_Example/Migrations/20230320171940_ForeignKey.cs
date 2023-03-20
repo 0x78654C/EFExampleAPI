@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EF_Example.Migrations
 {
-    public partial class AddISBNString : Migration
+    public partial class ForeignKey : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,7 +18,7 @@ namespace EF_Example.Migrations
                     ISBN = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: true),
                     Book_Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Catergory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false)
                 },
@@ -31,7 +31,7 @@ namespace EF_Example.Migrations
                 name: "User_Role",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", maxLength: 1, nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Role_Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -88,12 +88,6 @@ namespace EF_Example.Migrations
                 name: "IX_Books_id",
                 table: "Books",
                 column: "id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_Role_Id",
-                table: "User_Role",
-                column: "Id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
