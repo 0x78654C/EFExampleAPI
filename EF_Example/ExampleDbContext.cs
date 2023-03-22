@@ -56,7 +56,7 @@ namespace EF_Example
                   .IsUnique();
                 entity.Property(e => e.User_name).HasMaxLength(150);
                 entity.Property(e => e.Password).HasMaxLength(150);
-               // entity.Property(e => e.User_Role).HasMaxLength(3).HasDefaultValue(3);
+                entity.Property(e => e.User_Role).HasMaxLength(3).HasDefaultValue(3);
                 entity.Property(e => e.Login_date).HasColumnType("date");
             });
 
