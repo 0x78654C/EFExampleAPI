@@ -33,11 +33,13 @@
             passwordTxt = new TextBox();
             label3 = new Label();
             label4 = new Label();
+            signUpBtn = new Button();
+            LogisticBtn = new Button();
             SuspendLayout();
             // 
             // LoginBtn
             // 
-            LoginBtn.Location = new Point(58, 146);
+            LoginBtn.Location = new Point(23, 150);
             LoginBtn.Name = "LoginBtn";
             LoginBtn.Size = new Size(75, 23);
             LoginBtn.TabIndex = 4;
@@ -49,7 +51,7 @@
             // 
             usernameTxt.Location = new Point(23, 45);
             usernameTxt.Name = "usernameTxt";
-            usernameTxt.Size = new Size(145, 23);
+            usernameTxt.Size = new Size(158, 23);
             usernameTxt.TabIndex = 7;
             // 
             // passwordTxt
@@ -57,7 +59,7 @@
             passwordTxt.Location = new Point(23, 106);
             passwordTxt.Name = "passwordTxt";
             passwordTxt.PasswordChar = '*';
-            passwordTxt.Size = new Size(145, 23);
+            passwordTxt.Size = new Size(158, 23);
             passwordTxt.TabIndex = 8;
             // 
             // label3
@@ -80,12 +82,34 @@
             label4.TabIndex = 10;
             label4.Text = "Password";
             // 
+            // signUpBtn
+            // 
+            signUpBtn.Location = new Point(106, 150);
+            signUpBtn.Name = "signUpBtn";
+            signUpBtn.Size = new Size(75, 23);
+            signUpBtn.TabIndex = 11;
+            signUpBtn.Text = "Sign Up";
+            signUpBtn.UseVisualStyleBackColor = true;
+            signUpBtn.Click += signUpBtn_Click;
+            // 
+            // LogisticBtn
+            // 
+            LogisticBtn.Location = new Point(61, 189);
+            LogisticBtn.Name = "LogisticBtn";
+            LogisticBtn.Size = new Size(75, 23);
+            LogisticBtn.TabIndex = 12;
+            LogisticBtn.Text = "Logistic";
+            LogisticBtn.UseVisualStyleBackColor = true;
+            LogisticBtn.Click += LogisticBtn_Click;
+            // 
             // Login
             // 
             AcceptButton = LoginBtn;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(190, 185);
+            ClientSize = new Size(205, 240);
+            Controls.Add(LogisticBtn);
+            Controls.Add(signUpBtn);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(passwordTxt);
@@ -107,5 +131,7 @@
         private TextBox passwordTxt;
         private Label label3;
         private Label label4;
+        private Button signUpBtn;
+        private Button LogisticBtn;
     }
 }

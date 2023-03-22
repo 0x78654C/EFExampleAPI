@@ -1,6 +1,7 @@
 using FrontEndForm.Controllers;
 using FrontEndForm.Model;
 using FrontEndForm.Utils;
+using FrontEndForm.View;
 using Microsoft.VisualBasic.ApplicationServices;
 using System.ComponentModel;
 
@@ -39,6 +40,24 @@ namespace FrontEndForm
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
             }
+        }
+
+        /// <summary>
+        /// Open sign up form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void signUpBtn_Click(object sender, EventArgs e)
+        {
+            SignUp signUp = new SignUp();
+            signUp.Show();
+        }
+
+
+        private void LogisticBtn_Click(object sender, EventArgs e)
+        {
+            Logistic logistic = new Logistic();
+            logistic.Show();
         }
     }
 }
