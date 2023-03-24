@@ -41,7 +41,7 @@ namespace FrontEndForm.Controllers
                 MessageBox.Show("Check username or password!");
                 return "";
             }
-
+            var jwt = _Token.Substring(1, _Token.Length - 2);
             string json = JsonConvert.SerializeObject(new
             {
                 ISBN = _ISBN,
@@ -54,7 +54,7 @@ namespace FrontEndForm.Controllers
 
             HttpClient hc = new HttpClient();
             hc.DefaultRequestHeaders.Accept.Clear();
-            hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _Token);
+            hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
             hc.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpContent content = new StringContent(json);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
