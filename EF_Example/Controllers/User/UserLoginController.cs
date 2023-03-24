@@ -17,6 +17,15 @@ namespace EF_Example.Controllers.User
             _context = context;
         }
 
+        [HttpGet(Name = "GetUserRole")]
+        public async Task<ActionResult<int>> GetUserRole(string User_name)
+        {
+            var userData = await _context.UserLogin.FindAsync(User_name);
+            if (userData == null)
+                return NotFound($"User {User_name} does not exist");
+            return userData.User_Role; // assuming the Role property is an int
+        }
+
 
         /// <summary>
         /// Get all user information.
