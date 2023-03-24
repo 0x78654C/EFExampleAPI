@@ -18,7 +18,7 @@ namespace EF_Example.Controllers.User
         }
 
         /// <summary>
-        /// List all books in store.
+        /// List all Roles
         /// </summary>
         /// <returns></returns>
         [HttpGet(Name = "ListRoles")]
