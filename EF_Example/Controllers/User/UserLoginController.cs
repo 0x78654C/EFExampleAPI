@@ -17,13 +17,13 @@ namespace EF_Example.Controllers.User
             _context = context;
         }
 
-        [HttpGet(Name = "GetUserRole")]
-        public async Task<ActionResult<int>> GetUserRole(string User_name)
+        [HttpGet("GetUserRole/{User_name}")]
+        public async Task<ActionResult<string>> GetUserRole(string? User_name)
         {
-            var userData = await _context.UserLogin.FindAsync(User_name);
+            var userData = await _context.UserLogin.FirstOrDefaultAsync(i=>i.User_name==User_name);
             if (userData == null)
                 return NotFound($"User {User_name} does not exist");
-            return userData.User_Role; // assuming the Role property is an int
+            return userData.User_Role.ToString(); // assuming the Role property is an int
         }
 
 
@@ -32,7 +32,7 @@ namespace EF_Example.Controllers.User
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet(Name = "GetAllUserInfo")]
+        [HttpGet("GetAllUserInfo")]
         public async Task<IEnumerable<UserLogin>> GetAllUserInfo()
         {
             return await _context.UserLogin.ToListAsync();
