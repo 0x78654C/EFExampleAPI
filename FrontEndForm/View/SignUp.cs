@@ -27,7 +27,7 @@ namespace FrontEndForm.View
 
         private void SignUpBookStore(string userName, string password)
         {
-            LoginController loginController = new LoginController($"{Global.apiUrl}/api/signup", userName, password);
+            LoginController loginController = new LoginController($"{Global.apiUrl}/api/signup", userName, password,"");
             var result = Task.Run(() => loginController.GetToken()).Result;
             MessageBox.Show(result);
         }
