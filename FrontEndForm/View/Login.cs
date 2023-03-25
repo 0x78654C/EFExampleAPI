@@ -9,6 +9,7 @@ namespace FrontEndForm
 {
     public partial class Login : Form
     {
+        LoginController loginController;
         public Login()
         {
             InitializeComponent();
@@ -30,15 +31,27 @@ namespace FrontEndForm
         /// <param name="password"></param>
         private void LoginBookStore(string userName, string password)
         {
-            LoginController loginController = new LoginController($"{Global.apiUrl}/api/token", userName, password);
+           loginController = new LoginController($"{Global.apiUrl}/api/token", userName, password,"");
             var result = Task.Run(() => loginController.GetToken()).Result;
-            if (result.Contains("Invalid credentials") || result.Contains("Error"))
-                MessageBox.Show(result);
+            if (result.Contains("Invalid credentials") || result.Contains("Error") || string.IsNullOrEmpty(result))
+                return;
             else
             {
                 Global.jwtKey = result.StringToSecureString();
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
+                loginController = new LoginController($"{Global.apiUrl}/api/login/GetUserRole/{userName}", "", "", result);
+                var roleId = Task.Run(() => loginController.GetUserRoleId()).Result;
+                roleId = roleId.Replace("\"", "");
+                Global.roleId = roleId;
+                if (roleId == "3")
+                {
+                    MainWindow main = new MainWindow();
+                    main.Show();
+                }
+                else
+                {
+                    Administration administration = new Administration();
+                    administration.Show();
+                }
             }
         }
 
