@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+#if DEBUG
 builder.Services.AddSwaggerGen(setup =>
 {
     // Include 'SecurityScheme' to use JWT Authentication
@@ -39,7 +40,7 @@ builder.Services.AddSwaggerGen(setup =>
         { jwtSecurityScheme, Array.Empty<string>() }
     });
 });
-
+#endif
 
 var connectionString = builder.Configuration.GetSection("AuthDataSettings")["ConnectionString"];
 builder.Services.AddDbContext<ExampleDbContext>(options => options.UseSqlServer(connectionString));
