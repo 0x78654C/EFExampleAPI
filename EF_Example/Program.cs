@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BCrypt.Net;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,7 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ExampleDbContext>(options=> options.UseSqlServer(builder.Configuration.GetSection("AuthDataSettings")["ConnectionString"]));
+var connectionString = builder.Configuration.GetSection("AuthDataSettings")["ConnectionString"];
+builder.Services.AddDbContext<ExampleDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
@@ -28,6 +31,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 var app = builder.Build();
+
+var context = new ExampleDbContext(connectionString);
+
+// can be deleted after its run 1s (does a migration for old passwords in a hacky way)
+var users = context.UserLogin.Where(w => !w.Password.StartsWith("$2b$10$")).ToArray();
+foreach (var user in users)
+{
+    user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password, BCrypt.Net.BCrypt.GenerateSalt(10, SaltRevision.Revision2B));
+}
+
+context.SaveChanges();
+context.Dispose();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

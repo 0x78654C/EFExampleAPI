@@ -23,11 +23,12 @@ namespace EF_Example.Controllers.User
         [HttpPost]
         public async Task<ActionResult<UserLogin>> CreateUser(UserLogin userLogin)
         {
-            var userName = await _context.UserLogin.Where(x => x.User_name == userLogin.User_name).FirstOrDefaultAsync();
-            if (userName != null)
+            if ( await _context.UserLogin.Where(x => x.User_name == userLogin.User_name).AnyAsync())
             {
                 return BadRequest($"User {userLogin.User_name} already exist!");
             }
+
+            userLogin.Password = BCrypt.Net.BCrypt.HashPassword(userLogin.Password, BCrypt.Net.BCrypt.GenerateSalt(10));
             _context.UserLogin.Add(userLogin);
             await _context.SaveChangesAsync();
             return Ok($"User {userLogin.User_name} was created!");
