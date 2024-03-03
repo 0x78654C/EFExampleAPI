@@ -11,7 +11,6 @@ namespace EF_Example.Controllers
     /// <summary>
     /// JWT token generator controler
     /// </summary>
-
     [Route("api/token")]
     [ApiController]
     public class TokenController : ControllerBase
@@ -30,7 +29,6 @@ namespace EF_Example.Controllers
         /// </summary>
         /// <param name="_userData"></param>
         /// <returns></returns>
-
         [HttpPost]
         public async Task<IActionResult> Post(UserLogin _userData)
         {
@@ -42,7 +40,7 @@ namespace EF_Example.Controllers
             var user = await GetUser(_userData.User_name);
 
 
-            if (user == null || user.Password != _userData.Password) // password should be hashed and should validate hash would recommend bcrypt
+            if (user == null || !BCrypt.Net.BCrypt.Verify(_userData.Password, user.Password))
             {
                 return BadRequest("Invalid credentials");
             }
@@ -71,6 +69,5 @@ namespace EF_Example.Controllers
 
         private async Task<UserLogin?> GetUser(string email)
             => await _context.UserLogin.FirstOrDefaultAsync(u => u.User_name.ToLower() == email.ToLower());
-        
     }
 }
